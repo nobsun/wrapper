@@ -67,7 +67,7 @@ getResponse :: ( ?prompt :: String
 getResponse h = do 
     { resp <- liftIO $ hGetUntilNextPrompt h ?prompt
     ; let resp' = zipWith const resp (drop (1 + length ?prompt) resp)
-    ; liftIO $ putStrLn resp'
+    ; liftIO $ if null resp' then return () else putStrLn resp'
     ; liftIO $ logging ?logger resp'
     ; yield ()
     ; getResponse h

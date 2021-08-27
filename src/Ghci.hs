@@ -21,6 +21,7 @@ isQuitCmd = (`elem` [":q", ":quit"])
 cmdModifier :: String -> String
 cmdModifier str = case words str of
     [cmd]     | cmd `elem` [":r", ":reload"] -> ":e"
+    [cmd, fp] | cmd `elem` [":l", ":load"]   -> ":e " ++ fp
     _                                        -> str
 
 logFile :: FilePath
