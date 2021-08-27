@@ -1,0 +1,7 @@
+.stack-work/
+wrapper.cabal
+*.log
+core
+*.hi
+*.o
+*~
