@@ -24,7 +24,9 @@ wrapper = do
     ; (logger, cleanupLogger) <- newFastLogger ?logSpec
     ; let { ?fromRepl = fst handles; ?toRepl = snd handles; ?logger = logger } in
         runInputT defaultSettings (runEffect wrapperLoop)
-    ; putStrLn =<< hGetLine (fst handles)
+    ; msg <-hGetLine (fst handles)
+    ; putStrLn msg
+    ; logging logger msg
     ; cleanupLogger
     ; cleanupProcess proc
     }
@@ -107,10 +109,15 @@ inputLn' = do
 logging :: FastLogger -> String -> IO ()
 logging logger str = do
     { logger (toLogStrLn str)
-    ; logger . toLogStrLn . show =<< (utcToLocalTime <$> getCurrentTimeZone <*> getCurrentTime)
+    ; logger . toLogStrLn . time =<< timeStamp 
     }
     where
         toLogStrLn = toLogStr . (++ "\n")
+        time s = "<time>" ++ s ++ "</time>"
+
+timeStamp :: IO String
+timeStamp = formatTime defaultTimeLocale (iso8601DateFormat (Just "%H:%M:%S"))
+    <$> (utcToLocalTime <$> getCurrentTimeZone <*> getCurrentTime)
 
 takeUntil :: Functor m => (a -> Bool) -> Pipe a a m ()
 takeUntil p = go
