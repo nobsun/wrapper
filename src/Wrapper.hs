@@ -11,10 +11,12 @@ import System.IO
 import System.Log.FastLogger
 import System.Process
 
+type CmdModifier = String -> String
+
 wrapper :: ( ?cmdLine     :: String
            , ?prompt      :: String
            , ?isQuitCmd   :: String -> Bool
-           , ?cmdModifier :: String -> String
+           , ?cmdModifier :: CmdModifier
            , ?logSpec     :: LogType )
         => IO ()
 wrapper = do
@@ -56,7 +58,7 @@ wrapperLoop :: ( ?prompt      :: String
                , ?fromRepl    :: Handle
                , ?toRepl      :: Handle
                , ?isQuitCmd   :: String -> Bool
-               , ?cmdModifier :: String -> String
+               , ?cmdModifier :: CmdModifier
                , ?logger      :: FastLogger )
             => Effect (InputT IO) ()
 wrapperLoop = getResponse ?fromRepl >-> inputLn >-> takeUntil ?isQuitCmd >-> issue ?toRepl
@@ -74,7 +76,7 @@ getResponse h = do
     }
 
 inputLn :: ( ?prompt :: String
-           , ?cmdModifier :: String -> String
+           , ?cmdModifier :: CmdModifier
            , ?logger :: FastLogger )
         => Pipe () String (InputT IO) ()
 inputLn = do
@@ -83,7 +85,7 @@ inputLn = do
     }
 
 inputLn' :: ( ?prompt :: String
-            , ?cmdModifier :: String -> String
+            , ?cmdModifier :: CmdModifier
             , ?logger :: FastLogger )
          => Pipe () String (InputT IO) ()
 inputLn' = do

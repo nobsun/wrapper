@@ -9,20 +9,22 @@ module Ghci
 import System.Log.FastLogger
 import System.Process
 
+type CmdModifier = String -> String
+
 prompt :: String
 prompt = ">>> "
 
 cmdLine :: String
-cmdLine = "stack exec -- ghci"
+cmdLine = "stack exec -- ghci -fshow-loaded-modules"
 
 isQuitCmd :: String -> Bool
 isQuitCmd = (`elem` [":q", ":quit"])
 
-cmdModifier :: String -> String
+cmdModifier :: CmdModifier
 cmdModifier str = case words str of
-    [cmd]     | cmd `elem` [":r", ":reload"] -> ":e"
-    [cmd, fp] | cmd `elem` [":l", ":load"]   -> ":e " ++ fp
-    _                                        -> str
+    [cmd]     | cmd `elem` [":r", ":reload"] -> head [":e"]
+    -- [cmd, fp] | cmd `elem` [":l", ":load"]   -> head [":e " ++ fp, str]
+    _                                        -> head [str]
 
 logFile :: FilePath
 logFile = "ghci.log"

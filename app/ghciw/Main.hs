@@ -9,10 +9,10 @@ main :: IO ()
 main = do
     { args <- getArgs
     ; let
-        { ?cmdLine   = cmdLine ++ case args of { [] -> ""; a:_ -> ' ':a }
-        ; ?prompt    = prompt
-        ; ?isQuitCmd = isQuitCmd
+        { ?cmdLine     = cmdLine ++ " " ++ unwords args
+        ; ?prompt      = prompt
+        ; ?isQuitCmd   = isQuitCmd
         ; ?cmdModifier = cmdModifier
-        ; ?logSpec = logSpec
+        ; ?logSpec     = logSpec
         } in wrapper
     }
