@@ -11,7 +11,7 @@ import System.IO
 import System.Log.FastLogger
 import System.Process
 
-type CmdModifier = String -> String
+import ReplInfo
 
 wrapper :: ( ?cmdLine     :: String
            , ?prompt      :: String
@@ -94,11 +94,15 @@ inputLn' = do
         Nothing  -> return ()
         Just ""  -> inputLn'
         Just str -> do
-            { yield (?cmdModifier str)
-            ; liftIO (logging ?logger (?prompt ++ str))
+            { iter (?cmdModifier str)
             ; inputLn
             }
     }
+    where
+        iter = \ case
+            [s]  -> ylog s
+            s:ss -> ylog s >> await >> iter ss
+        ylog s = yield s >> liftIO (logging ?logger (?prompt ++ s))
 
 logging :: FastLogger -> String -> IO ()
 logging logger str = do
