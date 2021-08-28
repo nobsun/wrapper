@@ -12,3 +12,11 @@ data ReplInfo
     , cmdModifier :: CmdModifier
     , logSpec     :: LogType
     }
+
+defaultReplInfo = ReplInfo
+    { cmdLine = "fizzbuzz"
+    , prompt  = "? "
+    , isQuitCmd = ("bye" ==)
+    , cmdModifier = (: [])
+    , logSpec = LogFile (FileLogSpec "fizzbuzz.log" (2^(20 :: Int)) 10) 16
+    }

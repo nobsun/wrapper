@@ -35,6 +35,17 @@ library:
   source-dirs: src
 
 executables:
+  fizzbuzz:
+    main:               Main.hs
+    source-dirs:        app/fizzbuzz
+    dependencies:
+      - wrapper
+  fizzbuzzw:
+    main:               Main.hs
+    source-dirs:        app/fizzbuzzw
+    dependencies:
+      - wrapper
+
   catn:
     main:               Main.hs
     source-dirs:        app/catn
