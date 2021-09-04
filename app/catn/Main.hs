@@ -7,8 +7,10 @@ import Text.Printf
 
 main :: IO ()
 main = do
-    { [fp] <- getArgs
-    ; putStr . numbering =<< readFile fp
+    { args <- getArgs
+    ; case args of
+        []   -> return ()
+        fp:_ -> putStr . numbering =<< readFile fp
     }
 
 numbering :: String -> String
