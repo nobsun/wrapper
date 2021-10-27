@@ -104,7 +104,7 @@ inputLn' = do
         iter = \ case
             [s]  -> ylog s
             s:ss -> ylog s >> await >> iter ss
-        ylog s = yield s >> liftIO (logging ?logger (?prompt ++ s))
+        ylog s = liftIO (logging ?logger (?prompt ++ s)) >> yield s
 
 logging :: FastLogger -> String -> IO ()
 logging logger str = do
