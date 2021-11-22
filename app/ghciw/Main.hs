@@ -11,8 +11,7 @@ main = do
     { args <- getArgs
     ; let
         { ?cmdLine     = cmdLine ghciInfo ++ " "
-                      ++ unwords args ++ " "
-                      ++ "2>&1"
+                      ++ unwords args
         ; ?prompt      = prompt ghciInfo
         ; ?isQuitCmd   = isQuitCmd ghciInfo
         ; ?cmdModifier = cmdModifier ghciInfo

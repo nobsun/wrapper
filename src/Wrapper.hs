@@ -20,7 +20,7 @@ wrapper :: ( ?cmdLine     :: String
            , ?logSpec     :: LogType )
         => IO ()
 wrapper = do
-    { (proc, handles) <- invokeReplProcess ?cmdLine
+    { (proc, handles) <- invokeReplProcess (?cmdLine ++ " 2>&1")
     ; (logger, cleanupLogger) <- newFastLogger ?logSpec
     ; let { ?fromRepl = fst handles; ?toRepl = snd handles; ?logger = logger } in
         runInputT defaultSettings (runEffect wrapperLoop)
