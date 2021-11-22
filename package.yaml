@@ -3,7 +3,7 @@ version:             0.1.0.0
 github:              "nobsun/wrapper"
 license:             BSD3
 author:              "Nobuo Yamashita"
-maintainer:          "nobsun@sampou.org"
+maintainer:          "nobsun@gmail.org"
 copyright:           "Copyright: (c) 2021 Nobuo Yamashita"
 
 extra-source-files:

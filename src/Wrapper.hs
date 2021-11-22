@@ -24,7 +24,7 @@ wrapper = do
     ; (logger, cleanupLogger) <- newFastLogger ?logSpec
     ; let { ?fromRepl = fst handles; ?toRepl = snd handles; ?logger = logger } in
         runInputT defaultSettings (runEffect wrapperLoop)
-    ; msg <-hGetLine (fst handles)
+    ; msg <- hGetLine (fst handles)
     ; putStrLn msg
     ; logging logger msg
     ; cleanupLogger
@@ -53,7 +53,7 @@ makeCreateProcess :: String -> (Handle, Handle) -> CreateProcess
 makeCreateProcess cmd (rh, sh)
     = (shell cmd) { std_in = UseHandle rh
                   , std_out = UseHandle sh
-                  , std_err = UseHandle sh
+                  -- , std_err = UseHandle sh
                   }
 
 wrapperLoop :: ( ?prompt      :: String

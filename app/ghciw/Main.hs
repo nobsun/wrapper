@@ -10,7 +10,9 @@ main :: IO ()
 main = do
     { args <- getArgs
     ; let
-        { ?cmdLine     = cmdLine ghciInfo ++ " " ++ unwords args
+        { ?cmdLine     = cmdLine ghciInfo ++ " "
+                      ++ unwords args ++ " "
+                      ++ "2>&1"
         ; ?prompt      = prompt ghciInfo
         ; ?isQuitCmd   = isQuitCmd ghciInfo
         ; ?cmdModifier = cmdModifier ghciInfo
