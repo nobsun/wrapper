@@ -30,6 +30,7 @@ dependencies:
 - pipes
 - haskeline
 - data-default
+- exceptions
 
 library:
   source-dirs: src
@@ -52,6 +53,12 @@ executables:
   ghciw:
     main:               Main.hs
     source-dirs:        app/ghciw
+    dependencies:
+      - wrapper
+
+  ginput:
+    main:               Main.hs
+    source-dirs:        app/ginput
     dependencies:
       - wrapper
 
